@@ -52,37 +52,57 @@ module.exports = env => {
       rules: [{
           test: /\.html$/,
           use: [
-            'cache-loader',
+            // 'cache-loader',
             'html-loader'
           ]
         },
         {
           test: /\.vue$/,
           use: [
-            'cache-loader',
+            // 'cache-loader',
             'vue-loader'
           ]
         },
         {
-          test: /\.(scss|css)$/,
-          use: [
-            env.production ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[path][name]---[local]---[hash:base64:5]'
-              }
-            }, {
-              loader: 'px2rem-loader', // px => rem
-              options: {
-                remUnit: 40,
-                remPrecision: 8
-              }
-            },
-            'sass-loader'
-          ]
+          test: /\.(scss)$/,
+          oneOf: [{
+            resourceQuery: /module/,
+            use: [
+              env.production ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  localIdentName: '[local]_[hash:base64:5]'
+                }
+              }, {
+                loader: 'px2rem-loader',
+                options: {
+                  remUnit: 40,
+                  remPrecision: 8
+                }
+              },
+              'sass-loader'
+            ]
+          }, {
+            use: [
+              env.production ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+              'css-loader',
+              {
+                loader: 'px2rem-loader',
+                options: {
+                  remUnit: 40,
+                  remPrecision: 8
+                }
+              },
+              'sass-loader'
+            ]
+          }],
         },
+        {
+          test: /\.css$/,
+          use: [env.production ? MiniCssExtractPlugin.loader : 'vue-style-loader', 'css-loader' ]
+        }
       ]
     },
     resolve: {
@@ -95,6 +115,7 @@ module.exports = env => {
     },
     mode: 'production',
     devtool: 'inline-source-map',
+    plugins,
     optimization: {
       runtimeChunk: 'single', // 创建单个运行时 bundle
       splitChunks: { // 将公用的依赖模块提取到已有的 chunk 中，或者生成一个新的 chunk
@@ -104,16 +125,15 @@ module.exports = env => {
             name: 'vendors',
             chunks: 'all'
           },
-          styles: {
-            name: 'styles',
-            test: /\.css$/,
-            chunks: 'all',
-            enforce: true
-          }
+          // styles: {
+          //   name: 'styles',
+          //   test: /\.css$/,
+          //   chunks: 'all',
+          //   enforce: true
+          // }
         }
       },
     },
-    plugins,
     output: {
       filename: '[name].[hash].js',
       path: path.resolve(__dirname, 'dist'),
