@@ -22,7 +22,7 @@ export default {
 .panel{
   @include panel;
   .content{
-    @include flex(row);
+    @include list(row);
     position: relative;
     padding-bottom: 40px;
     img{

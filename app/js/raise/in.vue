@@ -85,7 +85,7 @@ export default {
 .panel{
   @include panel;
   .content{
-    @include flex;
+    @include list;
     margin-bottom: 40px;
     .item{
       >img{
@@ -94,7 +94,7 @@ export default {
         height: 170px;
       }
       .list{
-        @include flex(row);
+        @include list(row);
         .product{
           width: 50%;
           height: 396px;
@@ -130,7 +130,7 @@ export default {
           }
         }
         article{
-          @include flex(row);
+          @include list(row);
           align-items: center;
           justify-content: space-around;
           padding: 0 20px;

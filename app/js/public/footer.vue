@@ -50,7 +50,7 @@ export default {
       display: none;
     }
     .content{
-      @include flex;
+      @include list;
       background: #F5F5F5;
       li{
         width: 100%;
@@ -62,7 +62,7 @@ export default {
           height: 143px;
         }
         &:nth-child(2){
-          @include flex(row);
+          @include list(row);
           height: 186px;
           box-sizing: border-box;
           >div{

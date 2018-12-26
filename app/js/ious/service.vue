@@ -54,7 +54,7 @@ export default {
 .panel{
   @include panel;
   .content{
-    @include flex(row);
+    @include list(row);
     .item{
       width: 160px;
       height: 144px;

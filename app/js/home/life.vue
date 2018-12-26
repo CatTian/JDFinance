@@ -40,7 +40,7 @@ export default {
   .panel{
     @include panel;
     .content{
-      @include flex(row);
+      @include list(row);
       box-sizing: border-box;
       padding-bottom: 40px;
       .item{

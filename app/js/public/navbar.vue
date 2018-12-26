@@ -66,7 +66,7 @@ export default {
     display: none;
   }
   .content{
-    @include flex(row);
+    @include list(row);
     justify-content: space-around;
     li{
       text-align: center;

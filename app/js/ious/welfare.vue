@@ -46,9 +46,9 @@ export default {
     border-bottom: 1px solid #ddd;
   }
   .content{
-    @include flex;
+    @include list;
     .item{
-      @include flex(row);
+      @include list(row);
       align-items: center;
       height: 140px;
       &:after{

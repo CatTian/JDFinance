@@ -49,7 +49,7 @@ export default {
 .panel {
   @include panel;
   .content {
-    @include flex(row);
+    @include list(row);
     justify-content: space-around;
     box-sizing: border-box;
     &:after{

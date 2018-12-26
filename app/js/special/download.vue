@@ -29,7 +29,7 @@ html, body{
     display: none;
   }
   .content{
-    @include flex;
+    @include list;
     justify-content: center;
     align-items: center;
     height: 1136px;
