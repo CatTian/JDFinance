@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 提取 css 到外部文件
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // 压缩 css
 const ManifestPlugin = require('webpack-manifest-plugin');
 const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 
@@ -36,6 +37,18 @@ module.exports = env => {
         filename: '[name].[hash].css',
         chunkFilename: '[name].[hash].css',
       }),
+      new OptimizeCssAssetsPlugin({
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorPluginOptions: {
+          preset: ['default', {
+            discardComments: {
+              removeAll: true
+            }
+          }],
+        },
+        canPrint: true
+      })
     )
   }
   return {
@@ -101,7 +114,7 @@ module.exports = env => {
         },
         {
           test: /\.css$/,
-          use: [env.production ? MiniCssExtractPlugin.loader : 'vue-style-loader', 'css-loader' ]
+          use: [env.production ? MiniCssExtractPlugin.loader : 'vue-style-loader', 'css-loader']
         }
       ]
     },
@@ -125,12 +138,12 @@ module.exports = env => {
             name: 'vendors',
             chunks: 'all'
           },
-          // styles: {
-          //   name: 'styles',
-          //   test: /\.css$/,
-          //   chunks: 'all',
-          //   enforce: true
-          // }
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true
+          }
         }
       },
     },
